@@ -1,0 +1,20 @@
+{
+  "name": "daveandfriends",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "dev": "npx nodemon app.ts",
+    "start": "npx tsx app.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "nodemon": "^3.1.7",
+    "tsx": "^4.19.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "typescript": "^5.7.2"
+  }
+}

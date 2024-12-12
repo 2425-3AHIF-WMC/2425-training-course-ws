@@ -1,0 +1,6 @@
+{
+  "watch": ["./"],
+  "ext": "ts,tsx",
+  "exec": "tsx app.ts",
+  "ignore": ["public"]
+}
