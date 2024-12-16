@@ -1,0 +1,56 @@
+{
+  "title": "series",
+  "questions": [
+    {
+      "series": "Desperate Housewives",
+      "question": "Where to watch Desperate Housewives",
+      "options": [
+        {
+          "text": "Netflix",
+          "isCorrect": "false"
+        },
+        {
+          "text": "Prime",
+          "isCorrect": "false"
+        },
+        {
+          "text": "Disney",
+          "isCorrect": "true"
+        },
+        {
+          "text": "HBO",
+          "isCorrect": "false"
+        }
+      ]
+    },
+    {
+      "series": "Breaking Bad",
+      "question": "Who's the main character in Breaking Bad?",
+      "options": [
+        {
+          "text": "Walter White",
+          "isCorrect": "true"
+        },
+        {
+          "text": "Jessie Pinkman",
+          "isCorrect": "false"
+        }
+      ]
+    }
+  ,
+    {
+      "series": "Breaking Bad",
+      "question": "What are they cooking",
+      "options": [
+        {
+          "text": "Meth",
+          "isCorrect": "true"
+        },
+        {
+          "text": "Chilli",
+          "isCorrect": "false"
+        }
+      ]
+    }
+  ]
+}
