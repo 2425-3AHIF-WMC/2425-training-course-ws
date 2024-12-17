@@ -6,6 +6,7 @@
     "dev": "npx nodemon app.ts",
     "start": "npx tsx app.ts"
   },
+  "type": "module",
   "author": "",
   "license": "ISC",
   "description": "",
