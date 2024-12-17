@@ -1,5 +1,5 @@
 import { Queue } from "./queue";
-import express from "express";
+import express, { response } from "express";
 import { readFile } from "fs/promises";
 
 type Option = {
@@ -43,8 +43,20 @@ for (const q of questions) {
 
 const app = express();
 
-app.get("/greeting", (request, response) => {
-    response.send("Hallo Client");
+app.get("/greeting/:addressee", (request, response) => {
+    response.send(`Hallo ${request.params.addressee}`);
+});
+
+app.post('/queue/data/str/:value', (req, rsp) => {
+    const value: string = req.params.value;
+    stringQueue.enqueue(value);
+    
+    rsp.status(202).send(`The queue has now ${stringQueue.length} elements`);
+});
+
+app.get('/queue/data/str', (req, rsp) => {
+    const value: string = stringQueue.dequeue();
+    rsp.status(200).send(`Dequeued ${value}, queue has now ${stringQueue.length} elements`);
 });
 
 const port = 3000;

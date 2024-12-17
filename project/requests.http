@@ -1,0 +1,5 @@
+@BaseUrl = http://localhost:3000/
+
+POST {{BaseUrl}}/queue/data/str/lind HTTP/1.1
+content-type: application/json
+{}
