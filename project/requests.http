@@ -1,0 +1,17 @@
+@BaseUrl = http://localhost:3000/cows
+
+### Get all cows
+GET http://localhost:3000/cows
+
+### Get single cow
+GET http://localhost:3000/cows/2
+
+### Add new cow
+POST http://localhost:3000/cows
+Content-Type: application/json
+
+{
+  "name": "Peter",
+  "color": "Black",
+  "weight": "1234"
+}

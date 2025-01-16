@@ -1,50 +1,91 @@
 import { Queue } from "./queue";
-import express from "express";
+import express, { json } from "express";
 import { readFile } from "fs/promises";
+import { StatusCodes } from "http-status-codes";
 
-type Option = {
-    text: string,
-    isCorrect: boolean
-};
-type SeriesQuestions = {
-    series: string,
-    question: string,
-    options: Option[]
-}
-type SeriesQuestion = {
-    question: string,
-    options: Option[]
+type Cow = {
+    earMarkId: number,
+    name: string,
+    color: string,
+    weight: number,
 };
 
-const stringQueue = new Queue<string>();
-const boolQueue = new Queue<boolean>();
-
-const seriesRawData = await readFile("series.json", "utf-8");
-const series = JSON.parse(seriesRawData);
-const questions: SeriesQuestions[] = series.questions;
-
-const map: Map<string, SeriesQuestion[]> = new Map<string, SeriesQuestion[]>();
-for (const q of questions) {
-    if (map.has(q.series)) {
-        const existingQuestions = map.get(q.series)!;
-        existingQuestions.push({
-            question: q.question,
-            options: q.options
-        });
-    } else {
-        map.set(q.series, [
-            {
-                question: q.question,
-                options: q.options
-            }
-        ]);
-    }
-}
+let nextCowId = 1;
+const cowPerch: Cow[] = [];
 
 const app = express();
 
-app.get("/greeting", (request, response) => {
-    response.send("Hallo Client");
+app.use(json());
+
+app.get("/cows", (req, res) => {
+    res.status(StatusCodes.OK).json(cowPerch);
+});
+app.get("/cows/:id", (req, res) => {
+    const id: number = parseInt(req.params.id);
+    if (isNaN(id) || id < 1){
+        res.sendStatus(StatusCodes.BAD_REQUEST);
+    } else {
+        const cow: Cow | undefined = cowPerch.find(cow => cow.earMarkId === id);
+        if (cow){
+            res.json(cow);
+        } else {
+            res.sendStatus(StatusCodes.NOT_FOUND);
+        }
+    }
+});
+
+app.post("/cows", (req, res) => {
+   const cowData: any = req.body;
+   const name: string | undefined = cowData?.name;
+   const weight: number | undefined = cowData?.weight;
+   const color: string | undefined = cowData?.color;
+   if (!weight || isNaN(weight)
+   || !name || !color){
+       res.sendStatus(400);
+       return;
+   }
+   const cow = {
+       earMarkId: nextCowId++,
+       name: name,
+       color: color,
+       weight: weight
+   };
+   cowPerch.push(cow);
+   res.status(201).json(cow);
+});
+
+type CowUpdate = {
+    weight: number | undefined,
+    name: string | undefined
+};
+
+app.patch("/cows/:id", (req, res) => {
+    const id: number = parseInt(req.params.id);
+    const weight = req.body.weight;
+    const name = req.body.name;
+    if (isNaN(id) || id < 1
+        || (weight && isNaN(parseFloat(weight)))
+        || (name && name === '')) {
+        res.sendStatus(StatusCodes.BAD_REQUEST);
+        return;
+    }
+
+    const updateData = {
+        weight: weight,
+        name: name
+    };
+
+    const existingCow: Cow | undefined = cowPerch.find(cow => cow.earMarkId === id);
+
+    if (!existingCow){
+        res.sendStatus(StatusCodes.NOT_FOUND);
+        return;
+    }
+
+    existingCow.weight = updateData.weight ?? existingCow.weight;
+    existingCow.name = updateData.name ?? existingCow.name;
+
+    res.sendStatus(StatusCodes.NO_CONTENT);
 });
 
 const port = 3000;
