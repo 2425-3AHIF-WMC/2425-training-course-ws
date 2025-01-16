@@ -26,8 +26,14 @@ class MyNode<T> {
 export class Queue<T> {
     private _head: MyNode<T> | null = null;
     private _tail: MyNode<T> | null = null;
+    
+    public length: number = 0;
 
     public enqueue(value: T): void {
+        this.length++;
+
+        let i : number = 0;
+        console.log(`postfix ++ ${i++}, prefix ++: ${++i}`);
         const newNode = new MyNode(value);
         if (this._head === null){
             this._head = newNode;
@@ -48,6 +54,7 @@ export class Queue<T> {
         // At this point we realize that adding at the tail and
         // removing at the head would be smarter for a queue.
         // Or we could do double-linked nodes as an exercise?
+        this.length--;
         let current = this._head;
         while (current.next != this._tail && current.next !== null){
             current = current.next;

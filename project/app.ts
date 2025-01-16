@@ -1,6 +1,5 @@
 import { Queue } from "./queue";
 import express, { json } from "express";
-import { readFile } from "fs/promises";
 import { StatusCodes } from "http-status-codes";
 
 type Cow = {
